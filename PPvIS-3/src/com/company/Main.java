@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.allergy.AllergiesBase;
 import com.company.basic.*;
 
 import java.util.ArrayList;
@@ -13,7 +14,9 @@ public class Main {
         FoodstuffBase foodstuffBase = new FoodstuffBase();
         ArrayList<String> foodstuff = foodstuffBase.getAllFoodstuff();
 //        System.out.println(foodstuff.toArray().length);
-        Logic logic = new Logic();
-        logic.Start(recipesBase, foodstuffBase ,recipes, foodstuff);
+        AllergiesBase allergiesBase = new AllergiesBase();
+        ArrayList<String> allergies = allergiesBase.getAllergies();
+        Logic logic = new Logic(recipesBase, foodstuffBase ,recipes, foodstuff, allergies);
+        logic.Start();
     }
 }
