@@ -2,17 +2,14 @@ package com.company.basic;
 
 import com.company.basic.assets.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class FoodstuffBase implements Constants {
     private ArrayList<String> foodstuff = new ArrayList<String>();
     private int amountOfFoodstuff;
 
-    private void updateFoodstuffBase() {
+    public void updateFoodstuffBase() {
         try {
             String path = new File("").getAbsolutePath();
             File file = new File(path + FILE_FOODSTUFF);
@@ -32,6 +29,22 @@ public class FoodstuffBase implements Constants {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void addFoodstuffToBase(String ingredient) {
+        String path = new File("").getAbsolutePath();
+        File file = new File(path + FILE_FOODSTUFF);
+        try
+        {
+            FileWriter fw = new FileWriter(path + FILE_FOODSTUFF, true);
+            BufferedWriter bufferWriter = new BufferedWriter(fw);
+            bufferWriter.write(ingredient + ",");
+            bufferWriter.close();
+        }
+        catch(IOException ex){
+
+            System.out.println(ex.getMessage());
         }
     }
 

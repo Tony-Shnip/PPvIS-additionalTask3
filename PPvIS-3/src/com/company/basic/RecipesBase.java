@@ -9,8 +9,10 @@ import java.util.Arrays;
 public class RecipesBase implements Constants {
 
     private ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+    private Recipe lastRecipe;
 
     private void updateRecipesBase() {
+        updateLastRecipe();
         try {
             String path = new File("").getAbsolutePath();
             File file = new File(path + FILE_RECIPES);
@@ -39,8 +41,67 @@ public class RecipesBase implements Constants {
         }
     }
 
+    public void updateLastRecipe() {
+        try {
+            String path = new File("").getAbsolutePath();
+            File file = new File(path + FILE_LAST_RECIPE);
+            FileReader fr = new FileReader(file);
+            BufferedReader reader = new BufferedReader(fr);
+            String line = reader.readLine();
+            String[] newLine;
+            int newLineLength;
+            int textKey = 0;
+
+            while (line != null) {
+                if (textKey == 0) {
+                    newLine = line.split(",");
+                    newLineLength = newLine.length;
+                    this.lastRecipe = new Recipe(newLine[0], Arrays.copyOfRange(newLine, 1, newLineLength - 1), newLine[newLineLength - 1]);
+                    textKey = 1;
+                } else {
+                    lastRecipe.setRecipeText(line);
+                    textKey = 0;
+                }
+
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void overwriteLastRecipe(Recipe recipe) {
+        String path = new File("").getAbsolutePath();
+        File file = new File(path + FILE_LAST_RECIPE);
+        try(FileWriter fw = new FileWriter(file))
+        {
+            PrintWriter pw = new PrintWriter(path + FILE_LAST_RECIPE);
+            pw.close();
+
+            String firstLine;
+            String secondLine;
+
+            firstLine = recipe.getName() + ",";
+            for (int i = 0; i < recipe.getIngredients().length; i++) {
+                firstLine += recipe.getIngredients()[i] + ",";
+            }
+            firstLine += recipe.getMealType();
+            fw.write(firstLine + "\n");
+            fw.write(recipe.getRecipeText());
+
+        }
+        catch(IOException ex){
+
+            System.out.println(ex.getMessage());
+        }
+    }
+
     public RecipesBase() {
         updateRecipesBase();
+    }
+
+    public Recipe getLastRecipe() {
+        return this.lastRecipe;
     }
 
     public ArrayList<Recipe> getRecipes() {

@@ -14,6 +14,6 @@ public class Main {
         ArrayList<String> foodstuff = foodstuffBase.getAllFoodstuff();
 //        System.out.println(foodstuff.toArray().length);
         Logic logic = new Logic();
-        logic.Start(recipes, foodstuff);
+        logic.Start(recipesBase, foodstuffBase ,recipes, foodstuff);
     }
 }
