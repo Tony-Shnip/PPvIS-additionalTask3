@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class AllergiesBase implements Constants {
-    private ArrayList<String> allergies = new ArrayList<String>();
+    private final ArrayList<String> allergies = new ArrayList<String>();
 
     public void updateAllergiesBase() {
         try {

@@ -1,10 +1,11 @@
 package com.company.basic;
 
 public class Recipe {
-    private String name;
-    private String[] ingredients;
-    private String mealType;
+    private final String name;
+    private final String[] ingredients;
+    private final String mealType;
     private String recipeText;
+    private String[] appliance;
 
     public String getName() {
         return this.name;
@@ -22,8 +23,16 @@ public class Recipe {
         return this.recipeText;
     }
 
+    public String[] getAppliance() {
+        return this.appliance;
+    }
+
     public void setRecipeText(String recipeText) {
         this.recipeText = recipeText;
+    }
+
+    public void setAppliance(String[] appliance) {
+        this.appliance = appliance;
     }
 
     public Recipe(String name, String[] ingredients, String mealType) {

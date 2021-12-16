@@ -34,7 +34,6 @@ public class FoodstuffBase implements Constants {
 
     public void addFoodstuffToBase(String ingredient) {
         String path = new File("").getAbsolutePath();
-        File file = new File(path + FILE_FOODSTUFF);
         try
         {
             FileWriter fw = new FileWriter(path + FILE_FOODSTUFF, true);

@@ -1,5 +1,7 @@
 package com.company.basic;
 
+import com.company.appliance.AppliancesBase;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,10 +9,12 @@ public class Logic {
 
     private final RecipesBase recipesBase;
     private final FoodstuffBase foodstuffBase;
+    private final AppliancesBase appliancesBase;
     private final ArrayList<Recipe> recipes;
     private ArrayList<String> foodstuff;
     private final ArrayList<String> allergies;
     private final Scanner in = new Scanner(System.in);
+    private ArrayList<String> appliances;
 
     public void Start() {
 
@@ -22,8 +26,9 @@ public class Logic {
             System.out.println("4 - продолжить готовку,");
             System.out.println("5 - выбрать рецепт из списка,");
             System.out.println("6 - добавить ингредиент,");
-            System.out.println("7 - аллергии,");
-            System.out.println("8 - закончить работу.");
+            System.out.println("7 - добавить прибор,");
+            System.out.println("8 - аллергии,");
+            System.out.println("9 - закончить работу.");
             String input = in.nextLine();
 
             switch (input) {
@@ -46,9 +51,12 @@ public class Logic {
                     printAddNewFoodstuff();
                     break;
                 case "7":
-                    printAllergies();
+                    printAddNewAppliance();
                     break;
                 case "8":
+                    printAllergies();
+                    break;
+                case "9":
                     return;
                 default:
                     break;
@@ -115,6 +123,22 @@ public class Logic {
         }
         System.out.println("Рецепт: " + this.recipes.get(mealTypeIds[Integer.parseInt(recipeId) - 1]).getRecipeText());
 
+        StringBuilder appliancesList = new StringBuilder("Рекомендуемые приборы: ---");
+
+        for (int i = 0; i < this.recipes.get(mealTypeIds[Integer.parseInt(recipeId) - 1]).getAppliance().length; i++) {
+            appliancesList.append(this.recipes.get(mealTypeIds[Integer.parseInt(recipeId) - 1]).getAppliance()[i]).append("---");
+        }
+        System.out.println(appliancesList);
+
+        StringBuilder noAppliancesList = new StringBuilder("Недостающие приборы: ---");
+
+        for (int i = 0; i < this.recipes.get(mealTypeIds[Integer.parseInt(recipeId) - 1]).getAppliance().length; i++) {
+            if (!this.appliances.contains(this.recipes.get(mealTypeIds[Integer.parseInt(recipeId) - 1]).getAppliance()[i])) {
+                noAppliancesList.append(this.recipes.get(mealTypeIds[Integer.parseInt(recipeId) - 1]).getAppliance()[i]).append("---");
+            }
+        }
+        System.out.println(noAppliancesList);
+
         StringBuilder noIngredientsList = new StringBuilder("Недостающие ингредиенты: ---");
 
         for (int i = 0; i < this.recipes.get(mealTypeIds[Integer.parseInt(recipeId) - 1]).getIngredients().length; i++) {
@@ -143,6 +167,22 @@ public class Logic {
             System.out.println(lastRecipe.getIngredients()[i]);
         }
         System.out.println("Рецепт: " + lastRecipe.getRecipeText());
+
+        StringBuilder appliancesList = new StringBuilder("Рекомендуемые приборы: ---");
+
+        for (int i = 0; i < lastRecipe.getAppliance().length; i++) {
+            appliancesList.append(lastRecipe.getAppliance()[i]).append("---");
+        }
+        System.out.println(appliancesList);
+
+        StringBuilder noAppliancesList = new StringBuilder("Недостающие приборы: ---");
+
+        for (int i = 0; i < lastRecipe.getAppliance().length; i++) {
+            if (!this.appliances.contains(lastRecipe.getAppliance()[i])) {
+                noAppliancesList.append(lastRecipe.getAppliance()[i]).append("---");
+            }
+        }
+        System.out.println(noAppliancesList);
 
         StringBuilder noIngredientsList = new StringBuilder("Недостающие ингредиенты: ---");
 
@@ -182,6 +222,22 @@ public class Logic {
         }
         System.out.println("Рецепт: " + this.recipes.get(Integer.parseInt(choiceId) - 1).getRecipeText());
 
+        StringBuilder appliancesList = new StringBuilder("Рекомендуемые приборы: ---");
+
+        for (int i = 0; i < this.recipes.get(Integer.parseInt(choiceId) - 1).getAppliance().length; i++) {
+            appliancesList.append(this.recipes.get(Integer.parseInt(choiceId) - 1).getAppliance()[i]).append("---");
+        }
+        System.out.println(appliancesList);
+
+        StringBuilder noAppliancesList = new StringBuilder("Недостающие приборы: ---");
+
+        for (int i = 0; i < this.recipes.get(Integer.parseInt(choiceId) - 1).getAppliance().length; i++) {
+            if (!this.appliances.contains(this.recipes.get(Integer.parseInt(choiceId) - 1).getAppliance()[i])) {
+                noAppliancesList.append(this.recipes.get(Integer.parseInt(choiceId) - 1).getAppliance()[i]).append("---");
+            }
+        }
+        System.out.println(noAppliancesList);
+
         StringBuilder noIngredientsList = new StringBuilder("Недостающие ингредиенты: ---");
 
         for (int i = 0; i < this.recipes.get(Integer.parseInt(choiceId) - 1).getIngredients().length; i++) {
@@ -210,6 +266,15 @@ public class Logic {
         this.foodstuff = this.foodstuffBase.getAllFoodstuff();
     }
 
+    private void printAddNewAppliance() {
+        System.out.println("Введите новый прибор: ");
+        String newAppliance = this.in.nextLine();
+
+        this.appliancesBase.addAppliancesToBase(newAppliance);
+        this.appliancesBase.updateAppliancesBase();
+        this.appliances = this.appliancesBase.getAppliances();
+    }
+
     private void printAllergies() {
         System.out.print("У вас аллергия на: ---");
         for (String allergy : this.allergies) {
@@ -218,11 +283,13 @@ public class Logic {
         System.out.println();
     }
 
-    public Logic(RecipesBase recipesBase, FoodstuffBase foodstuffBase ,ArrayList<Recipe> recipes, ArrayList<String> allFoodstuff, ArrayList<String> allergies) {
+    public Logic(RecipesBase recipesBase, FoodstuffBase foodstuffBase, AppliancesBase appliancesBase, ArrayList<Recipe> recipes, ArrayList<String> allFoodstuff, ArrayList<String> allergies, ArrayList<String> appliances) {
         this.recipesBase = recipesBase;
         this.foodstuffBase = foodstuffBase;
+        this.appliancesBase = appliancesBase;
         this.recipes = recipes;
         this.foodstuff = allFoodstuff;
         this.allergies = allergies;
+        this.appliances = appliances;
     }
 }
