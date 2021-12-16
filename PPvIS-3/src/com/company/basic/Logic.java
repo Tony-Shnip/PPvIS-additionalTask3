@@ -13,8 +13,10 @@ public class Logic {
     private final ArrayList<Recipe> recipes;
     private ArrayList<String> foodstuff;
     private final ArrayList<String> allergies;
-    private final Scanner in = new Scanner(System.in);
     private ArrayList<String> appliances;
+    private final ArrayList<String[]> changes;
+    private final Scanner in = new Scanner(System.in);
+
 
     public void Start() {
 
@@ -28,7 +30,8 @@ public class Logic {
             System.out.println("6 - добавить ингредиент,");
             System.out.println("7 - добавить прибор,");
             System.out.println("8 - аллергии,");
-            System.out.println("9 - закончить работу.");
+            System.out.println("9 - приборы,");
+            System.out.println("10 - закончить работу.");
             String input = in.nextLine();
 
             switch (input) {
@@ -57,6 +60,9 @@ public class Logic {
                     printAllergies();
                     break;
                 case "9":
+                    printAppliances();
+                    break;
+                case "10":
                     return;
                 default:
                     break;
@@ -121,6 +127,21 @@ public class Logic {
             System.out.print((i + 1) + " - ");
             System.out.println(this.recipes.get(mealTypeIds[Integer.parseInt(recipeId) - 1]).getIngredients()[i]);
         }
+
+        System.out.println("Можно заменить:");
+
+        for (int i = 0; i < this.recipes.get(mealTypeIds[Integer.parseInt(recipeId) - 1]).getIngredients().length; i++) {
+            for (String[] change : this.changes) {
+                if (this.recipes.get(mealTypeIds[Integer.parseInt(recipeId) - 1]).getIngredients()[i].contains(change[0]) ||
+                        this.recipes.get(mealTypeIds[Integer.parseInt(recipeId) - 1]).getIngredients()[i].contains(change[1])
+                ) {
+                    System.out.println(change[0] + "<->" + change[1]);
+                }
+            }
+        }
+
+        System.out.println();
+
         System.out.println("Рецепт: " + this.recipes.get(mealTypeIds[Integer.parseInt(recipeId) - 1]).getRecipeText());
 
         StringBuilder appliancesList = new StringBuilder("Рекомендуемые приборы: ---");
@@ -166,6 +187,21 @@ public class Logic {
             System.out.print((i + 1) + " - ");
             System.out.println(lastRecipe.getIngredients()[i]);
         }
+
+        System.out.println("Можно заменить:");
+
+        for (int i = 0; i < lastRecipe.getIngredients().length; i++) {
+            for (String[] change : this.changes) {
+                if (lastRecipe.getIngredients()[i].contains(change[0]) ||
+                        lastRecipe.getIngredients()[i].contains(change[1])
+                ) {
+                    System.out.println(change[0] + "<->" + change[1]);
+                }
+            }
+        }
+
+        System.out.println();
+
         System.out.println("Рецепт: " + lastRecipe.getRecipeText());
 
         StringBuilder appliancesList = new StringBuilder("Рекомендуемые приборы: ---");
@@ -220,6 +256,21 @@ public class Logic {
             System.out.print((i + 1) + " - ");
             System.out.println(this.recipes.get(Integer.parseInt(choiceId) - 1).getIngredients()[i]);
         }
+
+        System.out.println("Можно заменить:");
+
+        for (int i = 0; i < this.recipes.get(Integer.parseInt(choiceId) - 1).getIngredients().length; i++) {
+            for (String[] change : this.changes) {
+                if (this.recipes.get(Integer.parseInt(choiceId) - 1).getIngredients()[i].contains(change[0]) ||
+                        this.recipes.get(Integer.parseInt(choiceId) - 1).getIngredients()[i].contains(change[1])
+                ) {
+                    System.out.println(change[0] + "<->" + change[1]);
+                }
+            }
+        }
+
+        System.out.println();
+
         System.out.println("Рецепт: " + this.recipes.get(Integer.parseInt(choiceId) - 1).getRecipeText());
 
         StringBuilder appliancesList = new StringBuilder("Рекомендуемые приборы: ---");
@@ -283,7 +334,15 @@ public class Logic {
         System.out.println();
     }
 
-    public Logic(RecipesBase recipesBase, FoodstuffBase foodstuffBase, AppliancesBase appliancesBase, ArrayList<Recipe> recipes, ArrayList<String> allFoodstuff, ArrayList<String> allergies, ArrayList<String> appliances) {
+    private void printAppliances() {
+        System.out.println("Доступные приборы:");
+        for (String appliance : this.appliances) {
+            System.out.println(appliance);
+        }
+        System.out.println();
+    }
+
+    public Logic(RecipesBase recipesBase, FoodstuffBase foodstuffBase, AppliancesBase appliancesBase, ArrayList<Recipe> recipes, ArrayList<String> allFoodstuff, ArrayList<String> allergies, ArrayList<String> appliances, ArrayList<String[]> changes) {
         this.recipesBase = recipesBase;
         this.foodstuffBase = foodstuffBase;
         this.appliancesBase = appliancesBase;
@@ -291,5 +350,6 @@ public class Logic {
         this.foodstuff = allFoodstuff;
         this.allergies = allergies;
         this.appliances = appliances;
+        this.changes = changes;
     }
 }

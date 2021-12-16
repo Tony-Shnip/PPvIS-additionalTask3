@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class AllergiesBase implements Constants {
-    private final ArrayList<String> allergies = new ArrayList<String>();
+    private final ArrayList<String> allergies = new ArrayList<>();
 
     public void updateAllergiesBase() {
         try {
@@ -22,8 +22,8 @@ public class AllergiesBase implements Constants {
 
             while (line != null) {
                 newLine = line.split(",");
-                for(int i = 0; i < newLine.length; i++) {
-                    this.allergies.add(newLine[i]);
+                for(String elem : newLine) {
+                    this.allergies.add(elem);
                 }
                 line = reader.readLine();
             }

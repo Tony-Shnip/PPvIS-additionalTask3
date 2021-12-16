@@ -3,6 +3,7 @@ package com.company;
 import com.company.allergy.AllergiesBase;
 import com.company.appliance.AppliancesBase;
 import com.company.basic.*;
+import com.company.foodstuffchange.FoodstuffChangeBase;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,10 @@ public class Main {
         AppliancesBase appliancesBase = new AppliancesBase();
         ArrayList<String> appliances = appliancesBase.getAppliances();
 
-        Logic logic = new Logic(recipesBase, foodstuffBase, appliancesBase ,recipes, foodstuff, allergies, appliances);
+        FoodstuffChangeBase foodstuffChangeBase = new FoodstuffChangeBase();
+        ArrayList<String[]> changes = foodstuffChangeBase.getAllChanges();
+
+        Logic logic = new Logic(recipesBase, foodstuffBase, appliancesBase ,recipes, foodstuff, allergies, appliances, changes);
         logic.Start();
     }
 }
